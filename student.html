@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mohit University</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="card">
+  <img src="asset/mohit.png" class="logo">
+  <h2>Mohit University</h2>
+
+  <select id="role">
+    <option value="">Select Role</option>
+    <option>Student</option>
+    <option>Teacher</option>
+    <option>Admin</option>
+  </select>
+
+  <input id="name" placeholder="Full Name">
+  <input type="date" id="dob">
+  <input id="age" placeholder="Age" readonly>
+
+  <select id="gender">
+    <option>Gender</option>
+    <option>Male</option>
+    <option>Female</option>
+  </select>
+
+  <input id="mobile" placeholder="Mobile">
+  <input id="email" placeholder="Email">
+  <input id="password" placeholder="Password">
+
+  <input value="Mohit University" readonly>
+
+  <select id="course" onchange="loadYear()">
+    <option>Select Course</option>
+    <option>BCA</option>
+    <option>B.Tech</option>
+    <option>BA</option>
+    <option>B.Com</option>
+    <option>MCA</option>
+    <option>M.Tech</option>
+  </select>
+
+  <select id="year"></select>
+
+  <button onclick="signup()">Signup</button>
+  <button onclick="login()">Login</button>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
