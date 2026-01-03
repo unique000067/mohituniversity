@@ -1,14 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Mohit University</title>
-<link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<title>Mohit University | Signup & Login</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:linear-gradient(120deg,#141e30,#243b55);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.container{
+  background:white;
+  width:420px;
+  padding:25px;
+  border-radius:12px;
+  box-shadow:0 15px 35px rgba(0,0,0,.5);
+}
+.logo{
+  text-align:center;
+  font-size:28px;
+  font-weight:bold;
+  color:#243b55;
+  margin-bottom:15px;
+}
+input,select,button{
+  width:100%;
+  padding:10px;
+  margin-top:8px;
+  border-radius:6px;
+  border:1px solid #ccc;
+  font-size:14px;
+}
+button{
+  background:#243b55;
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+button:hover{background:#141e30;}
+.note{
+  text-align:center;
+  font-size:13px;
+  margin-top:10px;
+  color:#666;
+}
+</style>
 </head>
+
 <body>
 
-<div class="card">
-  <img src="asset/mohit.png" class="logo">
-  <h2>Mohit University</h2>
+<div class="container">
+  <div class="logo">🎓 Mohit University</div>
 
   <select id="role">
     <option value="">Select Role</option>
@@ -18,23 +65,23 @@
   </select>
 
   <input id="name" placeholder="Full Name">
-  <input type="date" id="dob">
+  <input type="date" id="dob" onchange="calcAge()">
   <input id="age" placeholder="Age" readonly>
 
   <select id="gender">
-    <option>Gender</option>
+    <option value="">Gender</option>
     <option>Male</option>
     <option>Female</option>
   </select>
 
-  <input id="mobile" placeholder="Mobile">
+  <input id="mobile" placeholder="Mobile Number">
   <input id="email" placeholder="Email">
-  <input id="password" placeholder="Password">
+  <input id="password" type="password" placeholder="Password">
 
   <input value="Mohit University" readonly>
 
   <select id="course" onchange="loadYear()">
-    <option>Select Course</option>
+    <option value="">Select Course</option>
     <option>BCA</option>
     <option>B.Tech</option>
     <option>BA</option>
@@ -43,12 +90,78 @@
     <option>M.Tech</option>
   </select>
 
-  <select id="year"></select>
+  <select id="year">
+    <option value="">Select Year</option>
+  </select>
 
   <button onclick="signup()">Signup</button>
   <button onclick="login()">Login</button>
+
+  <div class="note">Same Email & Password से Login होगा</div>
 </div>
 
-<script src="js/main.js"></script>
+<!-- 🔥 Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDU301i6K_Zw3s1x2OgANYdTc9IhF1Tjic",
+  authDomain: "mohit-university.firebaseapp.com",
+  projectId: "mohit-university",
+  storageBucket: "mohit-university.firebasestorage.app",
+  messagingSenderId: "562963104496",
+  appId: "1:562963104496:web:a626281856f37d3a61f835"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.signup = function(){
+  let email = document.getElementById("email").value;
+  let pass = document.getElementById("password").value;
+  if(email==""||pass==""){alert("Email & Password required");return;}
+
+  createUserWithEmailAndPassword(auth,email,pass)
+  .then(()=>alert("Signup Successful"))
+  .catch(err=>alert(err.message));
+}
+
+window.login = function(){
+  let email = document.getElementById("email").value;
+  let pass = document.getElementById("password").value;
+
+  signInWithEmailAndPassword(auth,email,pass)
+  .then(()=>alert("Login Successful"))
+  .catch(()=>alert("Invalid Login"));
+}
+</script>
+
+<script>
+// Age
+function calcAge(){
+  let dob=document.getElementById("dob").value;
+  if(!dob)return;
+  let d=new Date(dob);
+  let age=new Date().getFullYear()-d.getFullYear();
+  document.getElementById("age").value=age;
+}
+
+// Course Year
+function loadYear(){
+  let c=document.getElementById("course").value;
+  let y=document.getElementById("year");
+  y.innerHTML="";
+  let max=3;
+  if(c==="B.Tech")max=4;
+  if(c==="MCA"||c==="M.Tech")max=2;
+  for(let i=1;i<=max;i++){
+    let o=document.createElement("option");
+    o.text="Year "+i;
+    y.add(o);
+  }
+}
+</script>
+
 </body>
 </html>
